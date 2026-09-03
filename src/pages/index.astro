@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = Object.entries(import.meta.glob('../content/posts/*.md', { eager: true, import: 'frontmatter' }))
+	.map(([path, frontmatter]) => ({ path, frontmatter }))
+	.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+---
+<BaseLayout>
+	<section class="hero shell">
+		<div class="eyebrow">PERSONAL NOTES · 2026</div>
+		<h1>把想法写下来，<br /><em>让时间留下回声。</em></h1>
+		<p>这里记录技术、阅读、远方，以及那些值得慢一点想清楚的事情。</p>
+	</section>
+	<section class="content shell">
+		<div class="section-label"><span>最近文章</span><span>{posts.length} 篇记录</span></div>
+		<div class="post-list">
+			{posts.map(({ path, frontmatter }) => {
+				const slug = path.split('/').pop()?.replace('.md', '');
+				return <a class="post-card" href={`/posts/${slug}`}>
+					<div class="post-meta"><span>{frontmatter.category}</span><span>{frontmatter.date}</span></div>
+					<h2>{frontmatter.title}</h2><p>{frontmatter.description}</p><span class="read">阅读文章 →</span>
+				</a>;
+			})}
+		</div>
+	</section>
+	<section id="about" class="about shell"><div class="section-label"><span>关于这里</span><span>ABOUT</span></div><p>一个不追赶热点的小博客。希望每次打开它，你都能找到一段安静、诚实而有用的文字。</p></section>
+</BaseLayout>
+
+<style>
+	.hero { padding:110px 0 100px; }
+	.eyebrow, .section-label, .post-meta, .read { font:12px 'DM Mono', monospace; letter-spacing:.08em; }
+	.eyebrow { color:var(--accent); margin-bottom:24px; }
+	h1 { font-size:clamp(42px, 7vw, 78px); line-height:1.17; letter-spacing:-.05em; margin:0 0 26px; font-weight:600; }
+	h1 em { color:var(--accent); font-style:normal; }
+	.hero p { color:var(--muted); font-size:17px; line-height:2; max-width:480px; }
+	.section-label { border-top:1px solid var(--line); padding:16px 0 28px; display:flex; justify-content:space-between; color:var(--muted); }
+	.post-list { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+	.post-card { background:var(--card); border:1px solid var(--line); padding:28px; min-height:260px; display:flex; flex-direction:column; transition:transform .2s, box-shadow .2s; }
+	.post-card:hover { transform:translateY(-4px); box-shadow:8px 8px 0 var(--line); }
+	.post-meta { display:flex; justify-content:space-between; color:var(--accent); }
+	h2 { font-size:26px; margin:38px 0 12px; }
+	.post-card p { color:var(--muted); line-height:1.8; margin:0; }
+	.read { color:var(--ink); margin-top:auto; padding-top:24px; }
+	.about { margin-top:110px; max-width:700px; margin-left:auto; margin-right:auto; }
+	.about p { font-size:26px; line-height:1.8; margin:12px 0; }
+	@media(max-width:700px) { .hero { padding:72px 0 68px; } .post-list { grid-template-columns:1fr; } .about p { font-size:20px; } }
+</style>

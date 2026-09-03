@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+	const modules = import.meta.glob('../../content/posts/*.md', { eager: true });
+	return Object.entries(modules).map(([path, mod]) => ({
+		params: { slug: path.split('/').pop()?.replace('.md', '') },
+		props: { post: mod }
+	}));
+}
+const { post } = Astro.props;
+const { Content, frontmatter } = post;
+---
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<article class="article shell">
+		<a class="back" href="/">← 返回文章列表</a>
+		<div class="post-meta"><span>{frontmatter.category}</span><span>{frontmatter.date}</span></div>
+		<h1>{frontmatter.title}</h1><p class="dek">{frontmatter.description}</p>
+		<div class="rule"></div><div class="prose"><Content /></div>
+	</article>
+</BaseLayout>
+
+<style>
+	.article { max-width:760px; padding:72px 0 20px; }
+	.back, .post-meta { font:12px 'DM Mono', monospace; }
+	.back { color:var(--muted); }.back:hover { color:var(--accent); }
+	.post-meta { display:flex; justify-content:space-between; color:var(--accent); margin-top:72px; }
+	h1 { font-size:clamp(38px, 6vw, 64px); line-height:1.25; letter-spacing:-.04em; margin:20px 0 18px; }
+	.dek { color:var(--muted); font-size:18px; line-height:1.9; }.rule { border-top:1px solid var(--line); margin:44px 0; }
+	.prose { font-size:18px; line-height:2.05; }.prose :global(h2) { font-size:28px; margin:45px 0 12px; }.prose :global(p) { margin:0 0 24px; }.prose :global(blockquote) { border-left:3px solid var(--accent); margin:32px 0; padding:4px 24px; color:var(--muted); }
+</style>

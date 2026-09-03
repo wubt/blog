@@ -1,0 +1,41 @@
+---
+const { title = '慢慢写', description = '关于技术、生活与正在发生的事。' } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" href="/favicon.svg" />
+		<title>{title} · 慢慢写</title>
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="shell nav-wrap">
+				<a class="brand" href="/" aria-label="返回首页"><span class="brand-mark">✳</span> 慢慢写</a>
+				<nav aria-label="主导航"><a href="/">文章</a><a href="/#about">关于</a></nav>
+			</div>
+		</header>
+		<main><slot /></main>
+		<footer class="shell footer"><span>© 2026 慢慢写</span><span>保持好奇，持续记录。</span></footer>
+	</body>
+</html>
+
+<style is:global>
+	@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Source+Han+Serif+SC:wght@400;600;700&display=swap');
+	:root { --ink:#17211b; --muted:#68746b; --paper:#f4f1e9; --line:#d8d5cb; --accent:#d65b3f; --card:#fbfaf6; }
+	* { box-sizing:border-box; }
+	body { margin:0; background:var(--paper); color:var(--ink); font-family:'Source Han Serif SC', Georgia, serif; }
+	a { color:inherit; text-decoration:none; }
+	.shell { width:min(1080px, calc(100% - 48px)); margin-inline:auto; }
+	.site-header { border-bottom:1px solid var(--line); }
+	.nav-wrap { height:76px; display:flex; align-items:center; justify-content:space-between; }
+	.brand { font-size:20px; font-weight:700; letter-spacing:.08em; }
+	.brand-mark { color:var(--accent); font-size:26px; vertical-align:-2px; }
+	nav { display:flex; gap:28px; font-size:14px; color:var(--muted); }
+	nav a:hover { color:var(--accent); }
+	.footer { border-top:1px solid var(--line); margin-top:96px; padding:24px 0 40px; display:flex; justify-content:space-between; color:var(--muted); font:12px 'DM Mono', monospace; }
+	@media (max-width:600px) { .shell { width:min(100% - 32px, 1080px); } .footer { display:block; } .footer span { display:block; margin-bottom:8px; } }
+</style>
