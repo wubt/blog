@@ -1,4 +1,28 @@
-# Astro Starter Kit: Minimal
+# 慢慢写 · Astro 博客
+
+这是一个部署在 Cloudflare 上的 Astro 博客，文章位于 `src/content/posts/`。
+
+## 评论系统
+
+文章页使用 Giscus 保存评论。启用评论前，请：
+
+1. 将 GitHub 仓库 `wubt/blog` 设置为公开；
+2. 在仓库设置中启用 Discussions，并确保存在 `General` 分类；
+3. 打开 [giscus.app](https://giscus.app/)，输入 `wubt/blog` 获取配置；
+4. 将 `repo-id` 和 `category-id` 写入 `.env`：
+
+```env
+PUBLIC_GISCUS_REPO_ID=你的_repo_id
+PUBLIC_GISCUS_CATEGORY_ID=你的_category_id
+```
+
+然后重新部署：
+
+```sh
+npm run deploy
+```
+
+没有配置这两个变量时，文章页会显示配置提示，不会加载评论脚本。
 
 ```sh
 npm create astro@latest -- --template minimal

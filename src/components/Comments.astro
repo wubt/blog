@@ -1,0 +1,32 @@
+---
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+const enabled = Boolean(repoId && categoryId);
+---
+
+<section class="comments" aria-label="文章评论">
+	<div class="comments-heading"><span>评论</span><span>COMMENTS</span></div>
+	{enabled ? <div class="giscus"></div> : <p class="comments-hint">评论系统尚未配置。请在环境变量中填写 Giscus 的 repo-id 和 category-id。</p>}
+</section>
+
+{enabled && <script src="https://giscus.app/client.js"
+	data-repo="wubt/blog"
+	data-repo-id={repoId}
+	data-category="General"
+	data-category-id={categoryId}
+	data-mapping="pathname"
+	data-strict="0"
+	data-reactions-enabled="1"
+	data-emit-metadata="0"
+	data-input-position="top"
+	data-theme="light"
+	data-lang="zh-CN"
+	data-loading="lazy"
+	crossorigin="anonymous"
+	async></script>}
+
+<style>
+	.comments { margin-top:80px; }
+	.comments-heading { border-top:1px solid var(--line); padding:16px 0 24px; display:flex; justify-content:space-between; color:var(--muted); font:12px 'DM Mono', monospace; letter-spacing:.08em; }
+	.comments-hint { color:var(--muted); font-size:14px; line-height:1.8; }
+</style>

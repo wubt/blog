@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Comments from '../../components/Comments.astro';
 
 export function getStaticPaths() {
 	const modules = import.meta.glob('../../content/posts/*.md', { eager: true });
@@ -17,6 +18,7 @@ const { Content, frontmatter } = post;
 		<div class="post-meta"><span>{frontmatter.category}</span><span>{frontmatter.date}</span></div>
 		<h1>{frontmatter.title}</h1><p class="dek">{frontmatter.description}</p>
 		<div class="rule"></div><div class="prose"><Content /></div>
+		<Comments />
 	</article>
 </BaseLayout>
 
